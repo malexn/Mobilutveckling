@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+	<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+	<script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+</head>
+<body>
+
+	<ons-navigator swipeable id="myNavigator"></ons-navigator>
+
+
+		<ons-page id="mainpage">
+			<ons-toolbar>
+				<div class="center">MainPage</div>
+			</ons-toolbar>
+
+			<ons-tabbar swipeable position="auto">
+		    	<ons-tab page="about.html" label="About" icon="md-settings" active-icon="md-settings"></ons-tab>
+		    	<ons-tab page="feetpage.html" label="Feet" icon="md-settings" active-icon="md-face"></ons-tab>
+		    	<ons-tab page="facepage.html" label="Face" icon="md-face" active-icon="md-face"></ons-tab>
+		    	<ons-tab page="shoulderpage.html" label="Shoulders" icon="md-face"></ons-tab>
+		  </ons-tabbar>
+		</ons-page>
+
+
+	<template id="feetpage.html">
+		<ons-page id="feet">
+
+			<div class="page_content">
+				<img class="my-header-image" src="images/photo-feet.jpg" />
+		
+				<h1>Feel Your Feet</h1>
+				<ul>
+					<li>Stand on your feet.</li>
+					<li>Experience the contact with the ground.</li>
+					<li>Feel into the soles of the feet.</li>
+					<li>Feel the knees.</li>
+					<li>The hips.</li>
+					<li>The spine.</li>
+					<li>Shoulders.</li>
+					<li>Neck.</li>
+					<li>Head.</li>
+					<li>Feel the connection between the top of the head and the feet.</li>
+				</ul>
+			</div>
+		</ons-page>
+	</template>
+
+	<template id="facepage.html">
+		<ons-page id="face">
+
+			<div class="page_content">
+				<img class="my-header-image" src="images/photo-face.jpg" />	
+					<h1>Feel Your Face</h1>
+					<ul>
+						<li>Become aware of your face.</li>
+						<li>Feel the forehead.</li>
+						<li>The eyebrows.</li>
+						<li>Eyes.</li>
+						<li>Nose.</li>
+						<li>Nostrils.</li>
+						<li>Air flowing through the nostrils.</li>
+						<li>Cheeks.</li>
+						<li>Jaw.</li>
+						<li>Lips.</li>
+						<li>Tongue.</li>
+						<li>Whole of the head.</li>
+						<li>The space surrounding the head.</li>
+					</ul>
+				</div>
+		</ons-page>
+	</template>
+
+	<template id="shoulderpage.html">
+		<ons-page id="shoulder">
+
+			<div class="page_content">
+				<img class="my-header-image" src="images/photo-shoulders-1.jpg" />
+				<h1>Feel Your Shoulders</h1>
+				<ul>
+					<li>Let your arms hang loose.</li>
+					<li>Become aware of the shoulders.</li>
+					<li>Slightly lift one shoulder and release it.</li>
+					<li>Let the shoulder come all the way down.</li>
+					<li>Lift the other shoulder and release it.</li>
+					<li>Alternate three more times on each side.</li>
+					<li>Experience the breath flowing in and out of the body.</li>
+				</ul>
+			</div>
+		</ons-page>
+	</template>
+	<template id="about.html">
+		<ons-page id="about">
+
+			<div class="page_content">
+				<p>This app is helping you to learn and do relaxation exercises. </p>
+			</div>
+		</ons-page>
+	</template>
+	
+	<script>
+		document.addEventListener('prechange', function(event) {
+  document.querySelector('ons-toolbar .center')
+    .innerHTML = event.tabItem.getAttribute('label');
+});
+	</script>
+
+</body>
+</html>
