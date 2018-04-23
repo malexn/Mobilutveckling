@@ -9,14 +9,62 @@
 </head>
 <body>
 
-	<ons-navigator swipeable id="myNavigator" page="mainpage.html"></ons-navigator>
+
+	<ons-splitter>
+	  <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+	    <ons-page>
+	      <ons-list>
+	        <ons-list-item onclick="fn.load('mainpage.html')" tappable>
+	          Mainpage
+	        <div class="right">
+        		<ons-switch></ons-switch>
+     		</div>  
+	        </ons-list-item>
+	        <ons-list-item onclick="fn.load('shoulderpage.html')" tappable>
+	          Shoulder
+	        <div class="right">
+        		<ons-switch></ons-switch>
+     		</div>  
+	        </ons-list-item>
+	        <ons-list-item onclick="fn.load('feetpage.html')" tappable>
+	          Feet
+	        <div class="right">
+        		<ons-switch></ons-switch>
+     		</div>  
+     		</ons-list-item>
+
+     		<ons-list-item onclick="fn.load('facepage.html')" tappable>
+	          Face
+	        <div class="right">
+        		<ons-switch></ons-switch>
+     		</div>  
+     		</ons-list-item>
+
+	        <ons-list-item onclick="fn.load('about.html')" tappable>
+	          About
+	        <div class="right">
+        		<ons-switch></ons-switch>
+     		</div>  
+	        </ons-list-item>
+	      </ons-list>
+	    </ons-page>
+	  </ons-splitter-side>
+	  <ons-splitter-content id="content" page="mainpage.html"></ons-splitter-content>
+	</ons-splitter>
+
+
 
 	<template id="mainpage.html">
 		<ons-page id="mainpage">
 			<ons-toolbar >
+				<div class="left">
+					<ons-toolbar-button onclick="fn.open()">
+          				<ons-icon icon="md-menu"></ons-icon>
+        			</ons-toolbar-button>
+        		</div>	
 				<div id="headbar" class="center">Main Page</div>
 				<div class="right">
-			  	<ons-button id="Aboutbutton">About</ons-button>
+
 			  	<ons-button id="dialogbutton" onclick="showTemplateDialog()">Show Dialog</ons-button>
 			  </div>
 			</ons-toolbar>
@@ -24,24 +72,6 @@
 			<div class ="page_content">
 				<img id="bild1page" class="my-header-image" src="images/photo-default.jpg" />
 
-				<ons-list id="list">
-					<ons-list-header>Practises</ons-list-header>
-					<ons-list-item id="feet" modifier="chevron" tappable>Feet      
-						<div class="right">
-        					<ons-switch></ons-switch>
-     					</div>
-  					</ons-list-item>
-					<ons-list-item id="face" modifier="chevron" tappable>Face      
-						<div class="right">
-        					<ons-switch></ons-switch>
-      					</div>
-  					</ons-list-item>
-					<ons-list-item id ="shoulders" modifier="chevron" tappable>Shoulders      
-						<div class="right">
-	        				<ons-switch></ons-switch>
-	      				</div>
-      				</ons-list-item>
-				</ons-list>
 			</div>
 		</ons-page>
 	</template>
@@ -49,7 +79,12 @@
 	<template id="feetpage.html">
 		<ons-page id="feet">
 			<ons-toolbar>
-				<div class="left"><ons-back-button>MainPage</ons-back-button></div>
+					<div class="left">
+	        			<ons-toolbar-button onclick="fn.open()">
+	          				<ons-icon icon="md-menu"></ons-icon>
+	        			</ons-toolbar-button>
+	      			</div>
+
 				<div class="center">FeetPage</div>
 			</ons-toolbar>
 			<div class="page_content">
@@ -89,7 +124,12 @@
 	<template id="facepage.html">
 		<ons-page id="face">
 			<ons-toolbar>
-				<div class="left"><ons-back-button>MainPage</ons-back-button></div>
+					<div class="left">
+	        			<ons-toolbar-button onclick="fn.open()">
+	          				<ons-icon icon="md-menu"></ons-icon>
+	        			</ons-toolbar-button>
+	      			</div>
+
 				<div class="center">FacePage</div>
 			</ons-toolbar>
 			<div class="page_content">
@@ -117,7 +157,12 @@
 	<template id="shoulderpage.html">
 		<ons-page id="shoulder">
 			<ons-toolbar>
-				<div class="left"><ons-back-button>MainPage</ons-back-button></div>
+					<div class="left">
+	        			<ons-toolbar-button onclick="fn.open()">
+	          				<ons-icon icon="md-menu"></ons-icon>
+	        			</ons-toolbar-button>
+	      			</div>
+
 				<div class="center">ShoulderPage</div>
 			</ons-toolbar>
 			<div class="page_content">
@@ -139,7 +184,12 @@
 	<template id="about.html">
 		<ons-page id="about">
 			<ons-toolbar>
-				<div class="left"><ons-back-button>MainPage</ons-back-button></div>
+				<div class="left">
+	        		<ons-toolbar-button onclick="fn.open()">
+	          			<ons-icon icon="md-menu"></ons-icon>
+	        		</ons-toolbar-button>
+	      		</div>
+
 				<div class="center"></div>
 			</ons-toolbar>
 			<div class="page_content">
@@ -148,10 +198,11 @@
 			</div>
 		</ons-page>
 	</template>
-	<script src="./js/routes.js"></script>
+<!-- 	<script src="./js/routes.js"></script>
 	<script src="./js/feet.js"></script>
 	<script src="./js/face.js"></script>
-	<script src="./js/shoulders.js"></script>
+	<script src="./js/shoulders.js"></script> -->
 	<script src="./js/dialog.js"></script>
+	<script src="./js/splitter.js"></script>
 </body>
 </html>
