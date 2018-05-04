@@ -1,4 +1,3 @@
-
 // A Painter application that uses MQTT to distribute draw events
 // to all other devices running this app.
 
@@ -8,6 +7,7 @@ var app = {}
 
 var host = 'mqtt.evothings.com'
 var port = 1884
+var nickname = ''
 
 app.connected = false
 app.ready = false
@@ -61,50 +61,39 @@ app.initialize = function () {
 app.onReady = function () {
   if (!app.ready) {
     app.color = app.generateColor(app.uuid) // Generate our own color from UUID
-    app.pubTopic = 'paint/' + app.uuid + '/evt' // We publish to our own device topic
-    app.subTopic = 'paint/+/evt' // We subscribe to all devices using "+" wildcard
-    app.setupCanvas()
+    app.pubTopic = 'ChatRoll/' + app.uuid + '/evt' // We publish to our own device topic
+    app.subTopic = 'ChatRoll/+/evt' // We subscribe to all devices using "+" wildcard
+    app.setupTextBox()
     app.setupConnection()
     app.ready = true
+    app.setNickName()
   }
 }
 
-app.setupCanvas = function () {
-  var canvas = document.getElementById('canvas')
-  app.ctx = canvas.getContext('2d')
-  var totalOffsetX = 0
-  var totalOffsetY = 0
-  var curElement = canvas
-  do {
-    totalOffsetX += curElement.offsetLeft
-    totalOffsetY += curElement.offsetTop
-  } while (curElement = curElement.offsetParent)
-  app.left = totalOffsetX
-  app.top = totalOffsetY
+app.setNickName = function () {
+  app.setNickname = document.getElementById('setNickname')
+  app.nickname = document.getElementById('nickname')
 
-  // We want to remember the beginning of the touch as app.pos
-  canvas.addEventListener('touchstart', function (event) {
-    // Found the following hack to make sure some
-    // Androids produce continuous touchmove events.
-    if (navigator.userAgent.match(/Android/i)) {
-      event.preventDefault()
-    }
-    var t = event.touches[0]
-    var x = Math.floor(t.clientX) - app.left
-    var y = Math.floor(t.clientY) - app.top
-    app.pos = {x: x, y: y}
-  })
 
-  // Then we publish a line from-to with our color and remember our app.pos
-  canvas.addEventListener('touchmove', function (event) {
-    var t = event.touches[0]
-    var x = Math.floor(t.clientX) - app.left
-    var y = Math.floor(t.clientY) - app.top
+}
+
+// app.setReceiver = function (){
+//   app.receiver = document.getElementById('receiver')
+// }
+
+app.setupTextBox = function () {
+  app.sendButton = document.getElementById('sendButton');
+  sendButton.addEventListener('click', function (event){
+    app.receiver = document.getElementById('receiver');  
+    var message = document.getElementById('message').value;
+    //var receiver = document.getElementById("receiver").value;
+
+
     if (app.connected) {
-      var msg = JSON.stringify({from: app.pos, to: {x: x, y: y}, color: app.color})
-      app.publish(msg)
+      var msg = JSON.stringify({nickname: app.nickname.value , to:app.receiver.value , message: message ,color: app.color});
+      app.publish(msg);
+      document.getElementById('message').value = "";
     }
-    app.pos = {x: x, y: y}
   })
 }
 
@@ -138,12 +127,14 @@ app.unsubscribe = function () {
 }
 
 app.onMessageArrived = function (message) {
-  var o = JSON.parse(message.payloadString)
-  app.ctx.beginPath()
-  app.ctx.moveTo(o.from.x, o.from.y)
-  app.ctx.lineTo(o.to.x, o.to.y)
-  app.ctx.strokeStyle = o.color
-  app.ctx.stroke()
+  var o = JSON.parse(message.payloadString);
+  console.log(o.to)
+  var chat = document.getElementById('textBox');
+  if (o.to == app.nickname.value || o.to == "" || o.nickname == app.nickname.value){
+    chat.innerHTML += "<p style='color:" + o.color + ";'>" + o.nickname + ':' + o.message + '</p>';
+  }
+  
+
 }
 
 app.onConnect = function (context) {
