@@ -6,7 +6,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=no,
 		shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>    
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
 	<title>Basic Template App</title>
 
@@ -57,7 +62,10 @@ function getJSON()
         {
             console.log('Using Apache Cordova HTTP GET function');
             cordovaHTTP.get(
-                mSensorDataURL + sensor.key + '.json?gt[timestamp]==2018-04-30&gt[timestamp]=2018-05-29',
+
+                mSensorDataURL + sensor.key + '.json?gt[timestamp]=now-1day&page=1',
+            
+
                 function (response) 
                     {
                         if (response) 
@@ -115,71 +123,56 @@ function getJSON()
 }
 
 
-
-
-
-
 function printData()    
     {
-
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
-// The type of chart we want to create
-         type: 'line',
+            // The type of chart we want to create
+            type: 'line',
 
-// The data for our dataset
-        data: {
-                labels: ["Humidity (%)", "Temp. (C)"],
+            // The data for our dataset
+            data: {
+                labels: ["Temp", "Time"],
                 datasets: [{
-                    label: "In recreational space",
-                    borderColor: 'rgb(153, 50, 204)',
-                    data: [sensor.data.h, sensor.data.t]
-                }, {
-                    label: 'In Office',
-                    borderColor: 'rgba(220,180,0,1)',
-                    data: [sensor2.data.h, sensor2.data.t] 
+                    label: "Sensor 1",
+                    borderColor: '#ff6384',
+                    data: [Date(sensor.data.timestamp), sensor.data.t]
                 }]
             },
 
-        // Configuration options go here
-        options: {}
+            // Configuration options go here
+            options: {}
         });
-
-        var ctx = document.getElementById('myChart2').getContext('2d');
-        var chart = new Chart(ctx, {
-// The type of chart we want to create
-         type: 'line',
-
-// The data for our dataset
-        data: {
-                labels: ["Carbon dioxide (ppm)", "Barometric pressure (Pa)"],
-                datasets: [{
-                    label: "In recreational space",
-                    borderColor: 'rgba(151,187,205,1)',
-                    data: [sensor.data.c, sensor.data.timestamp]
-                }, {
-                    label: 'In Office',
-                    borderColor: 'rgb(127, 255, 0)',
-                    data: [sensor2.data.c, sensor2.data.timestamp] 
-                }]
-            },
-
-        // Configuration options go here
-        options: {}
-        });
-
+    //     if (sensor && sensor.data) 
+    //         {
+    //         // Display the info.
+    //             html = '<h1>Sensor Data</h1>'
+    //              + '<br /><div id="time">Time  ' + sensor.data.timestamp + '</div>'
+    //              + '<div id="hum">Humidity ' + sensor.data.h + ' % (rel)</div>'
+    //              + '<div id="temp">Temperature ' + sensor.data.t + ' celcius</div>'
+    //              + '<img src="' + sensor.image + '" />'
+    //         } 
+    // else 
+    //         {
+    //             html = '<h1>Sensor Data</h1>'
+    //              + '<br />Sorry, sensor data not available right now :(</br>'
+    //              + '<img src="' + sensor.image + '" />'
+    //         }
+    // document.getElementById("printHere").innerHTML= html;
 
     }
-
 
 </script>
 
 <button onClick="getJSON();">Click to recieve sensor data</button>
-<div id="printHere"></div>
-
+<canvas id="myChart"></canvas>
+<button id="left" onClick="";><span class="fas fa-arrow-left"></span></button>
+<button id="right" onClick="";><span class="fas fa-arrow-right"></span></button>
 	<script src="cordova.js"></script>
 	<script src="libs/evothings/evothings.js"></script>
 	<script src="libs/evothings/ui/ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 	<!-- TODO: Add libraries that you need -->
 <canvas id="myChart"></canvas>
 <canvas id="myChart2"></canvas>
