@@ -14,13 +14,13 @@ sensor2.key = "dPjyGN0bx0IDgO000D4lI6leJGK";
 sensor.image = "https://evothings.com/demos/dome_pics/IMG_1758.JPG";
 
 function minusClick() {
-    if (this.day > 1 ){
-        this.day - 1;
+    if (day > 1 ){
+        day - 1;
     }
 }
 
 function plusClick() {
-    this.day +1;
+    day +1;
 }
 console.log(day);
 // Function to retrieve data, placing it in a "response" object
