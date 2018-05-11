@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+		shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    
+	<title>Office Information</title>
+
+    <style>
+        @import 'ui/css/evothings-app.css';
+    </style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	</script>
+
+</head>
+
+<body><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+
+    <ons-navigator swipeable id="myNavigator" page="mainpage.html"></ons-navigator>
+
+    <template id="mainpage.html">
+        <ons-page id="mainpage">
+            <ons-toolbar>
+                <div id="header" class="center">Welcome, biatch</div>
+                <div class="left">
+                    <ons-button id="About">
+                        <i class="far fa-comment"></i>
+                    </ons-button>
+                </div>
+            </ons-toolbar>
+            <div class ="page_content">
+                <ons-card id="temperature">
+                    <div class="title">Temperature</div>
+                    <div class="content">See the difference in temperature.</div>
+                </ons-card>
+                <ons-card id="lumination">
+                    <div class="title">Lumination</div>
+                    <div class="content">See the difference in lumination.</div>
+                </ons-card>
+                <ons-card id="humidity">
+                    <div class="title">Humidity</div>
+                    <div class="content">See the difference in humidity.</div>
+                </ons-card>
+                <ons-card id="carbondioxide">
+                    <div class="title">Carbon dioxide</div>
+                    <div class="content">See the difference in carbon dioxide.</div>
+                </ons-card>
+                <ons-card id="barometricpressure">
+                    <div class="title">Barometric pressure</div>
+                    <div class="content">See the difference in barometric pressure.</div>
+                </ons-card>
+                
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="temperature.html">
+        <ons-page id="temperature">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center">Temperature</div>
+            </ons-toolbar>
+            <div class="page_content">
+        
+                <h1>Chart with tempdifference.</h1>
+                <button onClick="getJSON();">Click to recieve sensor data</button>
+                <canvas class="myChart"></canvas>
+
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="lumination.html">
+        <ons-page id="lumination">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center">Lumination</div>
+            </ons-toolbar>
+            <div class="page_content">
+        
+                <h1>Chart with luminationdifference.</h1>
+                
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="humidity.html">
+        <ons-page id="humidity">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center">Humidity</div>
+            </ons-toolbar>
+            <div class="page_content">
+        
+                <h1>Chart with humiditydifference.</h1>
+                
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="carbondioxide.html">
+        <ons-page id="carbondioxide">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center">Carbon dioxide</div>
+            </ons-toolbar>
+            <div class="page_content">
+        
+                <h1>Chart with carbon dioxide difference.</h1>
+                
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="barometricpressure.html">
+        <ons-page id="barometricpressure">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center">Barometric pressure</div>
+            </ons-toolbar>
+            <div class="page_content">
+        
+                <h1>Chart with Barometric pressure difference.</h1>
+                
+            </div>
+        </ons-page>
+    </template>
+
+    <template id="about.html">
+        <ons-page id="about">
+            <ons-toolbar>
+                <div class="left"><ons-back-button>Back</ons-back-button></div>
+                <div class="center"></div>
+            </ons-toolbar>
+            <div class="page_content">
+                <p>With this application you can see the differece between spaces on Rindö Office </p>
+            </div>
+        </ons-page>
+    </template>
+    
+    <!-- <button onClick="getJSON();">Click to recieve sensor data</button>
+    <canvas class="myChart"></canvas> -->
+	<script src="cordova.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/temp.js"></script>
+    <script src="./js/lumination.js"></script>
+    <script src="./js/humidity.js"></script>
+    <script src="./js/carbondioxide.js"></script>
+    <script src="./js/barometricpressure.js"></script>
+    <script src="./js/about.js"></script>
+	<!-- TODO: Add libraries that you need -->
+
+</body>
+
+</html>

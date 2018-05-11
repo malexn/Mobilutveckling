@@ -6,8 +6,15 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, user-scalable=no,
 		shrink-to-fit=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>    
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+    
     <link rel="stylesheet" type="text/css" href="style.css">
+
 	<title>Basic Template App</title>
 
 	<style>
@@ -23,131 +30,63 @@
 
 <body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
 
-	<header>
+	 <header>
 		<button class="back" onclick="history.back()">
 			<img src="ui/images/arrow-left.svg" />
 		</button>
 
 		<img class="logotype" src="ui/images/logo.svg" alt="Evothings" />
 
-		<!--<button class="menu" onclick=""><img src="ui/images/menu.svg" /></button>-->
-	</header>
+		<!-- <button class="menu" onclick=""><img src="ui/images/menu.svg" /></button> -->
+	</header> 
+    <button onClick="getJSON();">Click to recieve sensor data</button>
+    <div>
+        <button class="plusClick" onClick="plusClick();"><i class="far fa-plus-square"></i></button>
+        <button class="minusClick" onClick="minusClick();"><i class="far fa-minus-square"></i></button>
+    </div>
+    <button class="tablink" onclick="openPage('Temp', this, 'red')" id="defaultOpen">Temp</button>
+    <button class="tablink" onclick="openPage('Lum', this, 'green')">Lum</button>
+    <button class="tablink" onclick="openPage('Hum', this, 'blue')">Hum</button>
+    <button class="tablink" onclick="openPage('More', this, 'orange')">More</button>
 
-	<script>
+    <div id="Temp" class="tabcontent">
+        <!-- <button onClick="getJSON();">Click to recieve sensor data</button> -->
+        <canvas id="temp"></canvas>
+    </div>
 
-// Create an empty sensor object as a global 
-var sensor = {};
-var sensor2 = {};
+    <div id="Lum" class="tabcontent">
+        <!-- <button onClick="getJSON();">Click to recieve sensor data</button> -->
+        <canvas id="lum"></canvas> 
+    </div>
 
-// Where the sensor data is stored
-var mSensorDataURL = 'http://80.69.174.27:8080/output/';
+    <div id="Hum" class="tabcontent">
+        <!-- <button onClick="getJSON();">Click to recieve sensor data</button> -->
+        <canvas id="hum"></canvas> 
+    </div>
 
-// A subscriber's key (other keys are available at http://80.69.174.27:8080/streams/)
-sensor.key = "GqXO9z3ae9tODKPPPO2YHxw39By";
-sensor2.key = "dPjyGN0bx0IDgO000D4lI6leJGK";
+    <div id="More" class="tabcontent">
+        <canvas id="carbon"></canvas> 
+        <br/>
+        <canvas id="baro"></canvas>
+        <br/>
+        <canvas id="movement"></canvas>
+    </div>
 
-// A bitmap image describing where the sensor is located
-sensor.image = "https://evothings.com/demos/dome_pics/IMG_1758.JPG";
+    
 
-
-// Function to retrieve data, placing it in a "response" object
-function getJSON() 
-    {
-    if (window.cordova) 
-        {
-            console.log('Using Apache Cordova HTTP GET function');
-            cordovaHTTP.get(
-                mSensorDataURL + sensor.key + '.json?gt[timestamp]=now-1day&page=1',
-            
-                function (response) 
-                    {
-                        if (response) 
-                            {
-                                sensor.data = JSON.parse(response.data)[0];
-                                sensor.fullData = JSON.parse(response.data);
-                                printData();
-                            }
-                    },
-                function (error) 
-                    {
-                    console.log(JSON.stringify(error));
-                    });
-        }    
-    else 
-        {
-            console.log('Not using Cordova, fallback to AJAX via jquery');
-            $.ajax({
-                    url: mSensorDataURL + sensor.key + ".json?gt[timestamp]=now-1day",
-                    jsonp: "callback",
-                    cache: true,
-                    dataType: "jsonp",
-                    data: 
-                        {
-                            page: 1
-                        },
-                    success: function(response) 
-                        {
-                            if (response && response[0]) 
-                                {
-                                    sensor.data = response[0];
-                                    sensor.fullData = response;
-                                    printData();
-                                }
-                        }
-                });
-        }
-}
-
-function printData()    
-    {
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
-
-            // The data for our dataset
-            data: {
-                labels: ["Temp", "Time"],
-                datasets: [{
-                    label: "Sensor 1",
-                    borderColor: '#ff6384',
-                    data: [Date(sensor.data.timestamp), sensor.data.t]
-                }]
-            },
-
-            // Configuration options go here
-            options: {}
-        });
-    //     if (sensor && sensor.data) 
-    //         {
-    //         // Display the info.
-    //             html = '<h1>Sensor Data</h1>'
-    //              + '<br /><div id="time">Time  ' + sensor.data.timestamp + '</div>'
-    //              + '<div id="hum">Humidity ' + sensor.data.h + ' % (rel)</div>'
-    //              + '<div id="temp">Temperature ' + sensor.data.t + ' celcius</div>'
-    //              + '<img src="' + sensor.image + '" />'
-    //         } 
-    // else 
-    //         {
-    //             html = '<h1>Sensor Data</h1>'
-    //              + '<br />Sorry, sensor data not available right now :(</br>'
-    //              + '<img src="' + sensor.image + '" />'
-    //         }
-    // document.getElementById("printHere").innerHTML= html;
-    }
-
-</script>
-
-<button onClick="getJSON();">Click to recieve sensor data</button>
-<canvas id="myChart"></canvas>
-<button id="left" onClick="";><span class="fas fa-arrow-left"></span></button>
-<button id="right" onClick="";><span class="fas fa-arrow-right"></span></button>
 	<script src="cordova.js"></script>
 	<script src="libs/evothings/evothings.js"></script>
 	<script src="libs/evothings/ui/ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/pagetabs.js"></script>
 
 	<!-- TODO: Add libraries that you need -->
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 
 </body>
 
